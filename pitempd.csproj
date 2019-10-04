@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>dotnet-pitempd-A7F7A48B-29B1-47AD-8579-AD8CD2A3951D</UserSecretsId>
+    <RootNamespace>BugzapperLabs.Temperatured</RootNamespace>
+    <Company>Bugzapper Labs</Company>
+    <Product>Temperatured</Product>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IoT.Device.Bindings" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="microsoft.extensions.hosting.systemd" Version="3.0.0" />
+  </ItemGroup>
+</Project>
