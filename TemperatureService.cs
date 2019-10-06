@@ -10,22 +10,32 @@ namespace BugzapperLabs.Temperatured
         private readonly ILogger<TemperatureSensor> _logger;
         private readonly TemperatureSensor _sensor;
         private readonly IList<double> _tempSeries;
+        private int _capacity;
 
         public TemperatureService(TemperatureSensor sensor, ILogger<TemperatureSensor> logger)
         {
             _sensor = sensor;
             _logger = logger;
-            _tempSeries = new List<double>(20);
+            _capacity = 20;
+            _tempSeries = new List<double>(_capacity);
         }
 
-        public double Fahrenheit => _tempSeries.FilteredAverage(2.0);
+        public double Fahrenheit
+        {
+            get
+            {
+                _logger.LogInformation("Series count: {count}", _tempSeries.Count);
+                return _tempSeries.FilteredAverage(1.0);
+            }
+        }
 
-        private void ReadData(object state)
+        internal void ReadData()
         {
             try
             {
                 var temp = _sensor.Temperature.Fahrenheit;
                 if (_sensor.IsLastReadSuccessful) _tempSeries.Add(temp);
+                _tempSeries.EnsureMaxCapacity(_capacity);
             }
             catch (InvalidOperationException ex)
             {
