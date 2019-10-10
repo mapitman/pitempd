@@ -5,24 +5,15 @@ namespace BugzapperLabs.Temperatured
     public class TemperatureController: Controller
     {
         [HttpGet]
-        [Route("temperature/current")]
-        public IActionResult Current()
+        [Route("temperature")]
+        public IActionResult Get()
         {
-            return Ok(73.2);
-        }
-        
-        [HttpGet]
-        [Route("temperature/low")]
-        public IActionResult Low()
-        {
-            return Ok(71.1);
-        }
-        
-        [HttpGet]
-        [Route("temperature/high")]
-        public IActionResult High()
-        {
-            return Ok(75.7);
+            return Ok(new
+            {
+                Current = 73.2,
+                Low = 71.3,
+                High = 75.6
+            });
         }
     }
 }
