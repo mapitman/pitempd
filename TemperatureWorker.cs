@@ -28,25 +28,13 @@ namespace pitempd
         {
             _metricServer.Start();
             var tempGauge = Metrics.CreateGauge("temperature_current", "Current temperature");
-            var highTempGauge = Metrics.CreateGauge("temperature_high", "High temperature");
-            var lowTempGauge = Metrics.CreateGauge("temperature_low", "Low temperature");
-            double highTemp = double.MinValue;
-            double lowTemp = double.MaxValue;
             while (!stoppingToken.IsCancellationRequested)
             {
                 var temperature = _temperatureService.Fahrenheit;
-                if (temperature > highTemp)
+                if (temperature != double.MinValue)
                 {
-                    highTemp = temperature;
+                    tempGauge.Set(temperature);
                 }
-
-                if (temperature < lowTemp)
-                {
-                    lowTemp = temperature;
-                }
-                tempGauge.Set(temperature);
-                lowTempGauge.Set(lowTemp);
-                highTempGauge.Set(highTemp);
                 _logger.LogInformation("Time: {time} Temperature: {temp}", DateTimeOffset.Now, temperature);
                 await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
             }

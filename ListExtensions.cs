@@ -14,6 +14,10 @@ namespace BugzapperLabs.Temperatured
         /// <returns></returns>
         public static double FilteredAverage(this IList<double> list, double standardFactor)
         {
+            if (!list.Any())
+            {
+                return double.MinValue;
+            }
             var mean = list.Average(x => x);
             var standardDeviation =
                 Math.Sqrt(list.Select(x => Math.Pow(x - mean, 2)).Sum() /

@@ -4,16 +4,23 @@ namespace BugzapperLabs.Temperatured
 {
     public class TemperatureController: Controller
     {
+        private readonly TemperatureService _temperatureService;
+
+        public TemperatureController(TemperatureService temperatureService)
+        {
+            _temperatureService = temperatureService;
+        }
         [HttpGet]
         [Route("temperature")]
         public IActionResult Get()
         {
-            return Ok(new
+            var temperature = _temperatureService.Fahrenheit;
+            if (temperature == double.MinValue)
             {
-                Current = 73.2,
-                Low = 71.3,
-                High = 75.6
-            });
+                return Problem("No temperature readings yet. Try again later.");
+            }
+            
+            return Ok(temperature);
         }
     }
 }
