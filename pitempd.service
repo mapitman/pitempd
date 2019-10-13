@@ -1,0 +1,9 @@
+[Unit]
+Description=Ambient temperature daemon
+
+[Service]
+Type=notify
+ExecStart=/home/pi/pitempd/pitempd
+
+[Install]
+WantedBy=multi-user.target
