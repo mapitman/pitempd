@@ -30,8 +30,7 @@ namespace BugzapperLabs.Temperatured
                     {
                         sensor = new Dht22(2);
                     }
-
-                    services.AddSingleton(x => new MetricServer(1234));
+                    
                     services.AddSingleton(x => new TemperatureSensor(sensor));
                     services.AddSingleton<TemperatureService>();
                     services.AddHostedService<TemperatureServiceWorker>();

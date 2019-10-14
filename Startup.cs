@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
+
 
 namespace BugzapperLabs.Temperatured
 {
@@ -35,6 +37,8 @@ namespace BugzapperLabs.Temperatured
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMetricServer();
         }
     }
 }
