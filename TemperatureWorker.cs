@@ -23,7 +23,8 @@ namespace pitempd
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var tempGauge = Metrics.CreateGauge("temperature_current", "Current temperature");
+            var tempGauge = Metrics.CreateGauge("temperature", "Current temperature");
+            var humidityGauge = Metrics.CreateGauge("humidity", "Current humidity");
             while (!stoppingToken.IsCancellationRequested)
             {
                 var temperature = _temperatureService.Fahrenheit;
@@ -31,7 +32,13 @@ namespace pitempd
                 {
                     tempGauge.Set(temperature);
                 }
-                _logger.LogInformation("Time: {time} Temperature: {temp}", DateTimeOffset.Now, temperature);
+                
+                var humidity = _temperatureService.Humidity;
+                if (humidity != double.MinValue)
+                {
+                    humidityGauge.Set(humidity);
+                }
+                _logger.LogInformation("Time: {time} Temperature: {temp} Humidity: {humidity}", DateTimeOffset.Now, temperature, humidity);
                 await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
             }
         }

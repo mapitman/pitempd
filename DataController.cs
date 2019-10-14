@@ -2,17 +2,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BugzapperLabs.Temperatured
 {
-    public class TemperatureController: Controller
+    public class DataController: Controller
     {
         private readonly TemperatureService _temperatureService;
 
-        public TemperatureController(TemperatureService temperatureService)
+        public DataController(TemperatureService temperatureService)
         {
             _temperatureService = temperatureService;
         }
+        
         [HttpGet]
         [Route("temperature")]
-        public IActionResult Get()
+        public IActionResult GetTemperature()
         {
             var temperature = _temperatureService.Fahrenheit;
             if (temperature == double.MinValue)
@@ -21,6 +22,19 @@ namespace BugzapperLabs.Temperatured
             }
             
             return Ok(temperature);
+        }
+        
+        [HttpGet]
+        [Route("humidity")]
+        public IActionResult GetHumidity()
+        {
+            var humidity = _temperatureService.Humidity;
+            if (humidity == double.MinValue)
+            {
+                return Problem("No humidity readings yet. Try again later.");
+            }
+            
+            return Ok(humidity);
         }
     }
 }

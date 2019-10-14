@@ -17,19 +17,31 @@ namespace BugzapperLabs.Temperatured
         }
 
         public Temperature Temperature => _sensor?.Temperature ?? Temperature.FromFahrenheit(GetFakeTemperature());
-        public double Humidity => _sensor?.Humidity ?? 45.0;
+        public double Humidity => _sensor?.Humidity ?? GetFakeHumidity();
         public bool IsLastReadSuccessful => _sensor?.IsLastReadSuccessful ?? true;
 
         private readonly double[] _fakeTemperatures = {73.0, 32.0, 73.0, 73.0, 73.0, 73.0, 73.0, 32.0, 73.0, 73.0};
-        private int _fakeIndex;
+        private readonly double[] _fakeHumidity = {48.0, 10.0, 48.0, 48.0, 48.0, 48.0, 48.0, 10.0, 48.0, 48.0};
+        private int _fakeTempIndex;
+        private int _fakeHumidityIndex;
         private double GetFakeTemperature()
         {
-            if (_fakeIndex >= _fakeTemperatures.Length)
+            if (_fakeTempIndex >= _fakeTemperatures.Length)
             {
-                _fakeIndex = 0;
+                _fakeTempIndex = 0;
             }
 
-            return _fakeTemperatures[_fakeIndex++];
+            return _fakeTemperatures[_fakeTempIndex++];
+        }
+        
+        private double GetFakeHumidity()
+        {
+            if (_fakeHumidityIndex >= _fakeHumidity.Length)
+            {
+                _fakeHumidityIndex = 0;
+            }
+
+            return _fakeHumidity[_fakeHumidityIndex++];
         }
     }
 }
