@@ -28,17 +28,17 @@ namespace pitempd
             while (!stoppingToken.IsCancellationRequested)
             {
                 var temperature = _temperatureService.Fahrenheit;
-                if (temperature != double.MinValue)
+                if (!double.IsNaN(temperature))
                 {
                     tempGauge.Set(temperature);
                 }
                 
                 var humidity = _temperatureService.Humidity;
-                if (humidity != double.MinValue)
+                if (!double.IsNaN(humidity))
                 {
                     humidityGauge.Set(humidity);
                 }
-                _logger.LogInformation("Time: {time} Temperature: {temp} Humidity: {humidity}", DateTimeOffset.Now, temperature, humidity);
+                _logger.LogInformation("Temp: {temp} Humi: {humidity}", temperature, humidity);
                 await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
             }
         }

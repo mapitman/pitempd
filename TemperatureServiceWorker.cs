@@ -20,8 +20,7 @@ namespace BugzapperLabs.Temperatured
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _temperatureService.ReadData();
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                await _temperatureService.ReadDataAsync(stoppingToken);
             }
         }
     }

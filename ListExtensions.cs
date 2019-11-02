@@ -16,7 +16,7 @@ namespace BugzapperLabs.Temperatured
         {
             if (!list.Any())
             {
-                return double.MinValue;
+                return double.NaN;
             }
             var mean = list.Average(x => x);
             var standardDeviation =
